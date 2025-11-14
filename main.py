@@ -11,8 +11,8 @@ import textgrid
 from transformers import Wav2Vec2ForCTC, Wav2Vec2Processor
 
 # --- Configuration ---
-ACOUSTIC_MODEL_PATH = "C:/Users/lucas/OneDrive/Documents/Atividades aleatorias/MFA_pronunciation_tester/model/portuguese_mfa.zip"
-DICTIONARY_PATH = "C:/Users/lucas/OneDrive/Documents/Atividades aleatorias/MFA_pronunciation_tester/model/portuguese_mfa.dict"
+ACOUSTIC_MODEL_PATH = "C:/Users/Vini/Desktop/Voxia/pronunciation-tester/model/portuguese_mfa.zip"
+DICTIONARY_PATH = "C:/Users/Vini/Desktop/Voxia/pronunciation-tester/model/portuguese_mfa.dict"
 
 # --- DNN Model Configuration ---
 SCORING_MODEL_NAME = "caiocrocha/wav2vec2-large-xlsr-53-phoneme-portuguese"
@@ -133,9 +133,12 @@ async def align_and_score_pronunciation(
                 "end": round(end_time, 4),
                 "score": round(avg_log_prob, 4)
             })
-        
+
         print("Scoring complete.")
         return JSONResponse(content={"scores": scores})
+
+    except HTTPException as he:
+        raise he
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {str(e)}")
